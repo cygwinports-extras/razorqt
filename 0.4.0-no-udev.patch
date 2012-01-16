@@ -1,0 +1,11 @@
+--- origsrc/razorqt-0.4.0/CMakeLists.txt	2011-12-15 08:28:15.000000000 -0600
++++ src/razorqt-0.4.0/CMakeLists.txt	2012-01-15 16:43:11.071323300 -0600
+@@ -40,7 +40,7 @@ include_directories (
+ 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR}
+ 	)
+ 
+-find_package (UDev REQUIRED)
++find_package (UDev)
+ 
+ 
+ # This allows to install and read the configs from non-standard locations

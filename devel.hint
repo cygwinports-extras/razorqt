@@ -1,0 +1,8 @@
+category: X11
+requires: razorqt libQtCore4-devel libQtDBus4-devel libQtGui4-devel libQtXml4-devel libX11-devel
+external-source: razorqt
+sdesc: "Lightweight Qt desktop environment (plugin development)"
+ldesc: "Razor-qt is an advanced, easy-to-use, and fast desktop 
+environment based on Qt technologies. It has been tailored for users who 
+value simplicity, speed, and an intuitive interface. Unlike most desktop 
+environments, Razor-qt also works fine with weak machines."

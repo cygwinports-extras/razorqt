@@ -1,0 +1,33 @@
+--- origsrc/razorqt-0.4.0/razorqt-panel/plugin-clock/razorclock.h	2011-12-15 08:28:15.000000000 -0600
++++ src/razorqt-0.4.0/razorqt-panel/plugin-clock/razorclock.h	2012-01-15 17:39:58.356503700 -0600
+@@ -73,7 +73,6 @@ private:
+     bool dateOnNewLine;
+ 
+ private slots:
+-    void confWindowDestroyed();
+     void updateMinWidth();
+ };
+ 
+--- origsrc/razorqt-0.4.0/razorqt-panel/plugin-quicklaunch/razorquicklaunch.h	2011-12-15 08:28:15.000000000 -0600
++++ src/razorqt-0.4.0/razorqt-panel/plugin-quicklaunch/razorquicklaunch.h	2012-01-15 18:46:24.988358800 -0600
+@@ -66,7 +66,6 @@ private:
+ 
+ private slots:
+     //! run command in the action
+-    void execAction(QAction*);
+     void addButton(QuickLaunchAction* action);
+     void switchButtons(int,int);
+     void buttonDeleted(int);
+--- origsrc/razorqt-0.4.0/razorqt-panel/plugin-taskbar/razortaskbar.h	2011-12-15 08:28:15.000000000 -0600
++++ src/razorqt-0.4.0/razorqt-panel/plugin-taskbar/razortaskbar.h	2012-01-15 18:44:16.278181200 -0600
+@@ -51,10 +51,6 @@ public:
+ public slots:
+     void activeWindowChanged();
+ 
+-private slots:
+-    void readSettings();
+-    void writeSettings();
+-
+ protected slots:
+     virtual void settigsChanged();
+     virtual void showConfigureDialog();
