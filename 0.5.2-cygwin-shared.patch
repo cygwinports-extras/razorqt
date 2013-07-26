@@ -1,0 +1,80 @@
+--- origsrc/razorqt-0.5.2/libraries/qtxdg/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/libraries/qtxdg/CMakeLists.txt	2013-07-26 13:34:35.236381700 -0500
+@@ -108,7 +108,9 @@ set_target_properties(qtxdg PROPERTIES
+   SOVERSION ${MAJOR_VERSION}
+ )
+ 
+-install(TARGETS qtxdg DESTINATION lib${LIB_SUFFIX})
++install(TARGETS qtxdg LIBRARY DESTINATION lib${LIB_SUFFIX}
++                      RUNTIME DESTINATION bin
++                      ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ install(FILES ${libqtxdg_PUBLIC_H_FILES} DESTINATION include/qtxdg)
+ 
+ include(create_pkgconfig_file)
+--- origsrc/razorqt-0.5.2/libraries/razormount/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/libraries/razormount/CMakeLists.txt	2013-07-26 13:35:08.645292600 -0500
+@@ -37,7 +37,9 @@ set_target_properties(razormount PROPERT
+   SOVERSION ${MAJOR_VERSION}
+ )
+ 
+-install(TARGETS razormount DESTINATION lib${LIB_SUFFIX})
++install(TARGETS razormount LIBRARY DESTINATION lib${LIB_SUFFIX}
++                           RUNTIME DESTINATION bin
++                           ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ install(FILES ${razormount_HDRS} DESTINATION include/razormount)
+ 
+ include(create_pkgconfig_file)
+--- origsrc/razorqt-0.5.2/libraries/razorqt/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/libraries/razorqt/CMakeLists.txt	2013-07-26 13:35:25.363248800 -0500
+@@ -128,7 +128,9 @@ set_target_properties(razorqt PROPERTIES
+   SOVERSION ${MAJOR_VERSION}
+ )
+ 
+-install(TARGETS razorqt DESTINATION lib${LIB_SUFFIX})
++install(TARGETS razorqt LIBRARY DESTINATION lib${LIB_SUFFIX}
++                        RUNTIME DESTINATION bin
++                        ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ install(FILES ${razorqt_HDRS} DESTINATION include/razorqt)
+ 
+ include(create_pkgconfig_file)
+--- origsrc/razorqt-0.5.2/libraries/razorqt/razorplugininfo.cpp	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/libraries/razorqt/razorplugininfo.cpp	2013-07-26 13:37:49.925517300 -0500
+@@ -75,7 +75,11 @@ QLibrary* RazorPluginInfo::loadLibrary(c
+     path = fi.canonicalPath();
+     baseName = value("X-Razor-Library", fi.completeBaseName()).toString();
+ 
++#ifdef Q_OS_CYGWIN
++    QString soPath = QDir(libDir).filePath(QString("cyg%2.dll").arg(baseName));
++#else
+     QString soPath = QDir(libDir).filePath(QString("lib%2.so").arg(baseName));
++#endif
+     QLibrary* library = new QLibrary(soPath);
+ 
+     if (!library->load())
+--- origsrc/razorqt-0.5.2/libraries/razorqxt/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/libraries/razorqxt/CMakeLists.txt	2013-07-26 13:35:45.368393000 -0500
+@@ -32,7 +32,9 @@ set_target_properties(razorqxt PROPERTIE
+   SOVERSION ${MAJOR_VERSION}
+ )
+ 
+-install(TARGETS razorqxt DESTINATION lib${LIB_SUFFIX})
++install(TARGETS razorqxt LIBRARY DESTINATION lib${LIB_SUFFIX}
++                         RUNTIME DESTINATION bin
++                         ARCHIVE DESTINATION lib${LIB_SUFFIX})
+ install(FILES ${razorqxt_PUBLIC_HDRS} DESTINATION include/razorqxt)
+ 
+ include(create_pkgconfig_file)
+--- origsrc/razorqt-0.5.2/razorqt-desktop/src/main.cpp	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/src/main.cpp	2013-07-26 13:36:39.850509200 -0500
+@@ -44,7 +44,11 @@ int main (int argc, char* argv[])
+     RazorSettings config("desktop");
+     
+     QString configId(config.value("desktop", "razor").toString());
++#ifdef Q_OS_CYGWIN
++    QString libraryFileName = QString("%1cygdesktop-%2.dll").arg(DESKTOP_PLUGIN_DIR).arg(configId);
++#else
+     QString libraryFileName = QString("%1libdesktop-%2.so").arg(DESKTOP_PLUGIN_DIR).arg(configId);
++#endif
+ 
+     qDebug() << "RazorDesktop: try to load " << libraryFileName;
+ 

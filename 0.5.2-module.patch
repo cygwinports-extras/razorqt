@@ -1,0 +1,77 @@
+--- origsrc/razorqt-0.5.2/razorqt-desktop/desktop-razor/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/desktop-razor/CMakeLists.txt	2013-07-26 13:53:19.875707400 -0500
+@@ -75,7 +75,8 @@ add_library(${PROJECT} SHARED ${HEADERS}
+ add_dependencies(${PROJECT} razorqt)
+ target_link_libraries(${PROJECT} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${X11_X11_LIB} razorqt)
+ 
+-install(TARGETS ${PROJECT} DESTINATION ${DESKTOP_PLUGIN_DIR})
++install(TARGETS ${PROJECT} LIBRARY DESTINATION ${DESKTOP_PLUGIN_DIR}
++                           RUNTIME DESTINATION ${DESKTOP_PLUGIN_DIR})
+ 
+ add_subdirectory( plugin-helloworld )
+ add_subdirectory( plugin-iconview )
+--- origsrc/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-analogclock/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-analogclock/CMakeLists.txt	2013-07-26 13:38:33.947035200 -0500
+@@ -66,7 +66,7 @@ razor_translate_desktop(DESKTOP_FILES
+ #************************************************
+ 
+ 
+-add_library(${PROJECT} SHARED ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${FORMS} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
++add_library(${PROJECT} MODULE ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${FORMS} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
+ add_dependencies(${PROJECT} razorqt)
+ target_link_libraries(${PROJECT} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} desktop-razor )
+ 
+--- origsrc/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-helloworld/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-helloworld/CMakeLists.txt	2013-07-26 13:38:37.920262400 -0500
+@@ -52,7 +52,7 @@ razor_translate_desktop(DESKTOP_FILES
+ )
+ #************************************************
+ 
+-add_library(${PROJECT} SHARED ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
++add_library(${PROJECT} MODULE ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
+ target_link_libraries(${PROJECT} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} desktop-razor)
+ add_dependencies(${PROJECT} razorqt desktop-razor)
+ 
+--- origsrc/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-notepad/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/desktop-razor/plugin-notepad/CMakeLists.txt	2013-07-26 13:38:50.549984800 -0500
+@@ -55,7 +55,7 @@ razor_translate_desktop(DESKTOP_FILES
+ )
+ #************************************************
+ 
+-add_library(${PROJECT} SHARED ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
++add_library(${PROJECT} MODULE ${HW_HEADERS} ${HW_SOURCES} ${HW_MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES} ${DESKTOP_FILES})
+ target_link_libraries(${PROJECT} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} desktop-razor )
+ add_dependencies(${PROJECT} razorqt)
+ 
+--- origsrc/razorqt-0.5.2/razorqt-desktop/desktop-wm_native/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-desktop/desktop-wm_native/CMakeLists.txt	2013-07-26 13:39:46.223169100 -0500
+@@ -41,7 +41,7 @@ qt4_wrap_cpp(MOC_SOURCES ${MOCS})
+ qt4_add_resources(QRC_SOURCES ${RESOURCES})
+ qt4_add_translation(QM_FILES ${TS_FILES})
+ 
+-add_library(${PROJECT} SHARED ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES})
++add_library(${PROJECT} MODULE ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QM_FILES} ${QRC_SOURCES})
+ add_dependencies(${PROJECT} razorqt)
+ target_link_libraries(${PROJECT} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${X11_X11_LIB} razorqt)
+ 
+--- origsrc/razorqt-0.5.2/razorqt-panel/BuildPlugin.cmake	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-panel/BuildPlugin.cmake	2013-07-26 13:40:24.361350500 -0500
+@@ -47,7 +47,7 @@ MACRO (BUILD_RAZOR_PLUGIN NAME)
+     qt4_wrap_ui(UI_SOURCES ${UIS})
+ 
+     add_library(${NAME} MODULE ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${${PROJECT_NAME}_QM_FILES} ${QRC_SOURCES} ${UIS} ${DESKTOP_FILES})
+-    target_link_libraries(${NAME} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBRARIES})
++    target_link_libraries(${NAME} ${PROGRAM} razorqt ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${LIBRARIES})
+ 
+     install(TARGETS ${NAME} DESTINATION ${PLUGIN_DIR})
+     install(FILES ${CONFIG_FILES}  DESTINATION ${PLUGIN_SHARE_DIR})
+--- origsrc/razorqt-0.5.2/razorqt-panel/panel/CMakeLists.txt	2013-01-12 10:45:52.000000000 -0600
++++ src/razorqt-0.5.2/razorqt-panel/panel/CMakeLists.txt	2013-07-26 13:40:49.179770000 -0500
+@@ -110,6 +110,7 @@ message(STATUS "Panel plugins location:
+ 
+ add_executable(${PROJECT} ${razor-panel_H_FILES} ${razor-panel_CPP_FILES} ${MOC_SOURCES} ${razor-runner_QM_FILES} ${QRC_SOURCES} ${UI_HEADERS})
+ target_link_libraries(${PROJECT} ${LIBRARIES} ${QT_LIBRARIES})
++set_target_properties(${PROJECT} PROPERTIES ENABLE_EXPORTS ON)
+ 
+ install(TARGETS ${PROJECT} RUNTIME DESTINATION bin)
+ install(FILES   ${CONFIG_FILES}    DESTINATION ${RAZOR_ETC_XDG_DIRECTORY}/razor/razor-panel/)
